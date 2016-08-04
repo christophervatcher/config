@@ -1,0 +1,166 @@
+%%-----------------------------------------------------------------------------
+%% Passes margin option to geometry package
+%%-----------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{notation}
+
+%%-----------------------------------------------------------------------------
+%%  Option Declartions
+%%-----------------------------------------------------------------------------
+\RequirePackage{xkeyval}
+\ProcessOptions\relax
+\ProcessOptionsX\relax
+
+%%-----------------------------------------------------------------------------
+%%  Packages
+%%-----------------------------------------------------------------------------
+\RequirePackage{pdflscape}
+\RequirePackage{afterpage}
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{xfrac}
+\RequirePackage{stmaryrd}
+\RequirePackage{graphicx}
+\RequirePackage[export]{adjustbox}
+%\RequirePackage{subfig} %-- Incompatible with Beamer
+\RequirePackage{float}
+\RequirePackage[justification=centering]{caption}
+\RequirePackage{listings}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{multirow}
+\RequirePackage{cite}
+\RequirePackage{hyperref}
+%\RequirePackage{algorithmicx} %-- Not needed with algpseudocode package
+%\RequirePackage{algpseudocode}
+\RequirePackage[ruled,vlined,linesnumbered,commentsnumbered]{algorithm2e}
+%\RequirePackage{paralist} %-- Incompatible with Beamer
+\RequirePackage{tikz}
+\RequirePackage{verbatim}
+
+%%-----------------------------------------------------------------------------
+%%  TikZ Settings
+%%  help lines - Grid Line Styles
+%%  every picture - Every Picture Style
+%%  every plot - Every Plot Style
+%%  every node - Every Node Style
+%%  every join - Every Join Style
+%%  > - Right-tipped Arrow Style
+%%-----------------------------------------------------------------------------
+\usetikzlibrary{calc,fit,positioning,scopes,through}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{arrows,chains}
+\usetikzlibrary{decorations,decorations.pathmorphing,decorations.pathreplacing,decorations.shapes,decorations.text,decorations.markings,}
+\usetikzlibrary{shapes,shapes.arrows,shapes.callouts,shapes.geometric,shapes.multipart,shapes.symbols}
+\usetikzlibrary{automata,matrix,trees}
+\usetikzlibrary{circuits.logic,circuits.logic.IEC}
+
+%%-----------------------------------------------------------------------------
+%%  Option Styles
+%%-----------------------------------------------------------------------------
+\floatstyle{boxed}
+\restylefloat{figure}
+%\restylefloat{table}
+
+%%-----------------------------------------------------------------------------
+%%  Theorem and Definition Styles
+%%-----------------------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{lem}{Lemma}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{exmp}{Example}
+%
+\newcommand*{\dfn}[1]{{\em #1}}
+
+
+%%-----------------------------------------------------------------------------
+%%  Headings
+%%-----------------------------------------------------------------------------
+\newenvironment{indentation}[2]%
+{%
+    \par
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \advance\linewidth -\leftmargin
+    \advance\linewidth -\rightmargin
+    \advance\@totalleftmargin\leftmargin
+    \@setpar{{\@@par}}%
+    \parshape 1 \@totalleftmargin \linewidth
+    \ignorespaces
+}%
+{\par}
+
+%%-----------------------------------------------------------------------------
+%%  Commands
+%%-----------------------------------------------------------------------------
+
+%% Cancel
+\newcommand*{\hcancel}[1]{%
+    \tikz[baseline=(tocancel.base)]{%
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
+        \draw[red] (tocancel.south west) -- (tocancel.north east);
+    }%
+}%
+%% Grouping
+\newcommand*{\groupp}[1]{\left(#1\right)}
+\newcommand*{\groupb}[1]{\left[#1\right]}
+\newcommand*{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand*{\ceiling}[1]{\left\lceil#1\right\rceil}
+%% Set Theory
+\newcommand*{\stcomp}[1]{#1^{\complement}}
+\newcommand*{\mathsetsym}[1]{\mathbf{#1}}
+\newcommand*{\mathset}[1]{\{#1\}}
+\newcommand*{\sequence}[1]{\left(#1\right)}
+\newcommand*{\card}[1]{\left|#1\right|}
+%% Probability
+\newcommand{\Prob}[1]{\Pr\left[{#1}\right]}
+%% Algebra
+\newcommand*{\indexset}[2]{#1_{1}, #1_{2}, \dotsc, #1_{#2}}
+\newcommand*{\integersmod}[2]{\mathsetsym{#1}_{#2}}
+\newcommand*{\divides}[2]{#1|#2}
+\newcommand*{\thegcd}[2]{\gcd\groupp{#1,#2}}
+\newcommand*{\groupset}[2]{\groupp{\mathsetsym{#1}, #2}}
+\newcommand*{\ringset}[3]{\groupp{\mathsetsym{#1}, #2, #3}}
+\newcommand*{\prodring}[3]{\prod_{#2=1}^{#3}{#1}}
+\newcommand*{\approxim}[1]{\hat{#1}}
+%% RNS Notation
+\newcommand*{\N}{\mathsetsym{Z}}
+\newcommand*{\Z}{\mathsetsym{Z}}
+\newcommand*{\RnsZ}[1]{\integersmod{Z}{#1}}
+\newcommand*{\RnsChannel}[1]{m_{#1}}
+\newcommand*{\RnsMChannel}[1]{M_{#1}}
+\newcommand*{\RnsModulus}{M}
+\newcommand*{\RnsVector}[1]{\bar{#1}}
+\newcommand*{\NumInBase}[2]{\groupb{#1}_{#2}}
+\newcommand*{\RnsRc}[1]{Rc_{#1}}
+%% Cryptography
+\newcommand{\PlainSpace}{\mathcal{P}}
+\newcommand{\CipherSpace}{\mathcal{C}}
+\newcommand{\KeySpace}{\mathcal{K}}
+%% Coding Theory
+\newcommand*{\HammingW}[1]{\operatorname{w_{H}}\groupp{#1}}
+\newcommand*{\HammingD}[2]{\operatorname{d_{H}}\groupp{#1,#2}}
+\newcommand*{\LeeW}[1]{\operatorname{w_{L}}\groupp{#1}}
+\newcommand*{\LeeD}[2]{\operatorname{d_{L}}\groupp{#1,#2}}
+%% Vectors
+\newcommand*{\norm}[1]{\left\|#1\right\|}
+\renewcommand*{\vec}[1]{\mathbf{#1}}
+\newcommand{\linmap}[1]{\mathbf{#1}}
+%% Computer Programming
+\newcommand*{\BitAnd}{\mathrel{\&}}
+\newcommand*{\BitOr}{\mathrel{|}}
+\newcommand*{\ShiftLeft}{\ll}
+\newcommand*{\ShiftRight}{\gg}
+\newcommand*{\BitNeg}{\ensuremath{\mathord{\sim}}}
+\newcommand*{\Truncate}[1]{\operatorname{trunc}\groupp{#1}}
+%% Algorithms
+\newcommand*{\BigO}[1]{\operatorname{O}\groupp{#1}}
+\newcommand*{\LittleO}[1]{\operatorname{o}\groupp{#1}}
+\newcommand*{\BigOmega}[1]{\Omega\groupp{#1}}
+\newcommand*{\LittleOmega}[1]{\omega\groupp{#1}}
+\newcommand*{\BigTheta}[1]{\Theta\groupp{#1}}

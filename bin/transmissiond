@@ -1,0 +1,2 @@
+#!/bin/sh
+transmission-daemon -c DIRECTORY -w DIRECTORY -ep -x DIRECTORY/transmission.pid

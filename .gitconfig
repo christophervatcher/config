@@ -1,0 +1,21 @@
+[user]
+[core]
+    editor = vim
+    autocrlf = input
+    safecrlf = true
+[push]
+    default = simple
+[merge]
+    editor = gvimdiff
+[alias]
+    co = checkout
+    ci = commit
+    br = branch
+    st = status
+    di = diff
+    unstage = reset HEAD --
+    last = log -l HEAD
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short --all
+[color]
+    ui = auto
