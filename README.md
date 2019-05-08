@@ -39,3 +39,7 @@ found is to install the proprietary video drivers.
 
 * Add sound to `/usr/share/sounds`
 * Add entry to `/usr/share/gnome-control-center/sounds/gnome-sounds-default.xml`
+
+## Touchpad right-click in Ubuntu 18.04+
+
+For whatever reason, Ubuntu configures the touchpad as multi-touch by default. To restore area-touch middle/right-click, install the `gnome-tweak-tools` package and change the "Mouse Click Emulation" setting to "Area".
