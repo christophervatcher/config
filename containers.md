@@ -71,6 +71,10 @@ echo export PULSE_COOKIE=/home/ubuntu/.config/pulse/cookie >> ~/.profile
 
 Finally, map the Pulse Audio cookie file into the container.
 
+```bash
+lxc config device add <container> PACookie disk path=$HOME/.config/pulse/cookie source=/home/ubuntu/.config/pulse/cookie
+```
+
 References:
 * https://blog.simos.info/how-to-run-wine-graphics-accelerated-in-an-lxd-container-on-ubuntu/
 * https://blog.simos.info/how-to-run-graphics-accelerated-gui-apps-in-lxd-containers-on-your-ubuntu-desktop/
