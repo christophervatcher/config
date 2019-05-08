@@ -99,6 +99,8 @@ apt install libcanberra-gtk3-module libasound2 libxkbcommon-x11-0 libxkbfile1
 
 Instruction outline: Configure an Ubuntu instance with a fixed IP address given from the LXD host. Then configure the LXD host's DHCP configuration to prioritize the container as the DNS server. Because systemd handles DNS fallback incorrectly, you must replace rather than supplement DNS settings on the host.
 
+Verify the DNS settings for the interface using `systemd-resolve --status`.
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
