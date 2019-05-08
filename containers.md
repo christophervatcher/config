@@ -146,6 +146,31 @@ remote$ lxc config show <container>
 remote$ lxc config device show <container>
 ```
 
+## Network-accessible LXD Container
+
+There are two ways to expose LXD containers to the external network: [macvlan](https://blog.simos.info/how-to-make-your-lxd-container-get-ip-addresses-from-your-lan/) and [bridging](https://blog.simos.info/how-to-make-your-lxd-containers-get-ip-addresses-from-your-lan-using-a-bridge/). Note that Ubuntu 18.04 has migrated to [NetPlan](https://netplan.io) ([instructions](https://openschoolsolutions.org/set-up-network-bridge-lxd/)).
+
+*Note: If LXD is running in a VM, the VM's network interface must be configured as promiscuous. This is because the hypervisor is unaware of the bridge interface created inside the VM, which has a different MAC address. The bridge interface will be unable to receive an IP address from the DHCP server. In some Linux installs, the operating system will hang on boot waiting for network connectivity.*
+
+0. Create a LXD VM Network port group on ESXi and enable promiscuous mode.
+
+1. Create the network bridge using NetPlan.
+
+2. Create the profile in LXD.
+
+```shell
+$ lxc profile create lanbridge
+$ lxc profile edit lanbridge
+```
+
+3. Assign the profile to the LXD container.
+
+```shell
+$ lxc launch -p default -p lanbridge <image> <container>
+$ lxc profile assign lanbridge <container>
+$ lxc restart <container>
+```
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
