@@ -80,6 +80,16 @@ References:
 * https://blog.simos.info/how-to-run-graphics-accelerated-gui-apps-in-lxd-containers-on-your-ubuntu-desktop/
 * https://bitsandslices.wordpress.com/2015/12/08/creating-an-lxd-container-for-graphics-applications/
 
+### Evince (AppArmor)
+
+#### Denied access to X display sockets
+AppArmor prevents evince from accessing the X display sockets by default (`/tmp/X11-unix/*`).
+Copy the relevant lines from `/usr/apparmor.d/abstractions/X` to `/usr/apparmor.d/local/usr.bin.evince`.
+
+#### Denied access based on Failed Name Lookup - Disconnected Path
+Evince attempts to do a DNS lookup, which it does not have permission to do. Apply
+`flags=(attach_disconnected)` to `/usr/apparmor.d/usr.bin.evince`.
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
