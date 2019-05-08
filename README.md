@@ -28,4 +28,9 @@ issue appears to be a bug with open-source video drivers (e.g., xf86-video-ati
 and xf86-video-nouveau).  While suboptimal in my opinion, the only fix I have
 found is to install the proprietary video drivers.
 
+## HiDPI Scaling
 
+* **QT 5.6+:**
+  ```shell
+  export QT_AUTO_SCREEN_SCALE_FACTOR=1
+  ```
