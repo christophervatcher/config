@@ -90,6 +90,10 @@ Copy the relevant lines from `/usr/apparmor.d/abstractions/X` to `/usr/apparmor.
 Evince attempts to do a DNS lookup, which it does not have permission to do. Apply
 `flags=(attach_disconnected)` to `/usr/apparmor.d/usr.bin.evince`.
 
+## System-local Pi-Hole
+
+Instruction outline: Configure an Ubuntu instance with a fixed IP address given from the LXD host. Then configure the LXD host's DHCP configuration to prioritize the container as the DNS server. Because systemd handles DNS fallback incorrectly, you must replace rather than supplement DNS settings on the host.
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
