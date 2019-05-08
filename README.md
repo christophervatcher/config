@@ -34,3 +34,8 @@ found is to install the proprietary video drivers.
   ```shell
   export QT_AUTO_SCREEN_SCALE_FACTOR=1
   ```
+
+## Adding sounds to Gnome
+
+* Add sound to `/usr/share/sounds`
+* Add entry to `/usr/share/gnome-control-center/sounds/gnome-sounds-default.xml`
