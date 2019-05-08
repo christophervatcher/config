@@ -101,6 +101,39 @@ Instruction outline: Configure an Ubuntu instance with a fixed IP address given 
 
 Verify the DNS settings for the interface using `systemd-resolve --status`.
 
+## Migrating LXD Containers
+
+To migrate LXD containers from one host to another, the process is to setup the listening services on both endpoints. At least one LXD instance must be network-accessible. This configuration assumes the local LXD instance is private and thus must "push" its data to the remote LXD instance.
+
+1. Setup the remote LXD instance to listen on HTTPS with a shared key.
+
+remote$ lxc config set core.https_address [::]:8443
+remote$ lxc config set core.trust_password something-secure
+
+2. Setup the local LXD instance to also listen on HTTPS.
+
+local$ lxc config set core.https_address [::]:8443
+
+3. Add the remote LXD instance to the local LXD instance as a remote server. During this process, the remote server will prompt for the password so it can store the local's certificate.
+
+local$ lxc remote add <remote> <remote.ip>
+
+4. Check the local configuration. Ensure all device mounts, storage pools, network settings, and other settings are accounted for.
+
+local$ lxc config show <container>
+local$ lxc config device show <container>
+
+5. Move the local container.
+
+local$ lxc stop <container>
+local$ lxc move <container> <remote>: --mode=push
+local$ lxc storage volume <pool>/<volume> <remote>:<pool>/<volume> --mode=push
+
+6. Verify the configuration on the remote.
+
+remote$ lxc config show <container>
+remote$ lxc config device show <container>
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
