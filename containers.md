@@ -107,32 +107,44 @@ To migrate LXD containers from one host to another, the process is to setup the 
 
 1. Setup the remote LXD instance to listen on HTTPS with a shared key.
 
+```shell
 remote$ lxc config set core.https_address [::]:8443
 remote$ lxc config set core.trust_password something-secure
+```
 
 2. Setup the local LXD instance to also listen on HTTPS.
 
+```shell
 local$ lxc config set core.https_address [::]:8443
+```
 
 3. Add the remote LXD instance to the local LXD instance as a remote server. During this process, the remote server will prompt for the password so it can store the local's certificate.
 
+```shell
 local$ lxc remote add <remote> <remote.ip>
+```
 
 4. Check the local configuration. Ensure all device mounts, storage pools, network settings, and other settings are accounted for.
 
+```shell
 local$ lxc config show <container>
 local$ lxc config device show <container>
+```
 
 5. Move the local container.
 
+```shell
 local$ lxc stop <container>
 local$ lxc move <container> <remote>: --mode=push
 local$ lxc storage volume <pool>/<volume> <remote>:<pool>/<volume> --mode=push
+```
 
 6. Verify the configuration on the remote.
 
+```shell
 remote$ lxc config show <container>
 remote$ lxc config device show <container>
+```
 
 ## Snappy Snap Packages
 
