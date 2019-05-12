@@ -97,15 +97,27 @@ explicit-exit-notify 1
 
 #### Intranet Routing
 
-The server configuration file pushes intranet routes to the client. To ensure OpenVPN routes traffic to the server network, enable IP forwarding on the OpenVPN server.
+The server configuration file pushes intranet routes to the client. To ensure OpenVPN routes traffic to the server network, enable IP forwarding on the OpenVPN server. Then configure IP tables to enable IP masquerade (one-to-many NAT).
 
-```dosini
-net.ipv4.ip_forward=1
-```
-
-```bash
-sysctl -p /etc/sysctl.conf
-```
+* IP Forwarding
+    * `/etc/sysctl.conf`
+        ```dosini
+        net.ipv4.ip_forward=1
+        ```
+    * `sysctl -p /etc/sysctl.conf`
+* IP Masquerade
+    * `/etc/ufw/before.rules`
+        ```dosini
+        *nat
+        :POSTROUTING ACCEPT [0:0] 
+        -A POSTROUTING -s 10.8.0.0/8 -o eth0 -j MASQUERADE
+        COMMIT
+        ```
+    * `/etc/default/ufw`
+        ```dosini
+        DEFAULT_FORWARD_POLICY="ACCEPT"
+        ```
+    * `ufw reload`
 
 ### Configuring OpenVPN Clients
 
