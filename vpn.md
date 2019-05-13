@@ -148,8 +148,12 @@ CLIENT-SIDE TLS CERTIFICATE
 CLIENT-SIDE TLS PRIVATE KEY
 </key>
 
+<tls-auth>
+TLS AUTHENTICATION KEY
+</tls-auth>
+key-direction 1
+
 remote-cert-tls server
-tls-auth ta.key 1
 cipher AES-256-GCM
 ; Enable compression. Note: This can expose VPN traffic to VORACLE attack.
 compress lz4-v2
