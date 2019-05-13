@@ -171,6 +171,26 @@ $ lxc profile assign lanbridge <container>
 $ lxc restart <container>
 ```
 
+### Issues with LXD Containers
+
+#### ejabberd in Unprivileged Containers
+
+Installation of ejabberd will hang and eventually fail during configuration because of systemd security enhancements. Add an override to the ejabberd systemd service file.
+
+```shell
+# systemctl edit ejabberd.service
+# dpkg --configure -a
+```
+
+```dosini
+[Service]
+PrivateDevices=false
+NoNewPrivileges=false
+PrivateTmp=false
+ProtectHome=false
+ProtectSystem=false
+```
+
 ## Snappy Snap Packages
 
 ### Snap Support in LXD Containers
